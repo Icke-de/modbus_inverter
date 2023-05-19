@@ -3,38 +3,34 @@ import {ModbusConnection} from "./modbus_util";
 import {DeviceTypes} from "./sma_constants";
 
 interface SMADevice {
-    readModbus(register: number, datatype: ModbusDatatype): Promise<any>;
+    readModbusHR(register: number, datatype: ModbusDatatype): Promise<any>;
+
+    readModbusIR(register: number, datatype: ModbusDatatype): Promise<any>;
 
     getIpAddress(): string;
-
-    getDeviceType(): Promise<string>;
 }
 
 export abstract class BasicSMADevice implements SMADevice{
     private connection: ModbusConnection;
     private ipAddress: string;
+    private unitId: number;
 
-    constructor(ipAddress: string, modbusPort = 502) {
-        this.connection = new ModbusConnection(ipAddress, modbusPort, 126);
+    constructor(ipAddress: string, modbusPort = 502, unitId: number ) {
+        this.unitId = unitId;
+        this.connection = new ModbusConnection(ipAddress, modbusPort, unitId);
         this.ipAddress = ipAddress;
-    }
-
-    async getDeviceType(): Promise<string> {
-        let id: string = await this.connection.readModbus(40037, ModbusDatatype.string, 8);
-        console.log(id.split(""));
-        return DeviceTypes[Number(id)];
     }
 
     getIpAddress(): string {
         return this.ipAddress;
     }
 
-    async readModbus(register: number, datatype: ModbusDatatype, length?: number): Promise<any> {
-        return this.connection.readModbus(register, datatype, length);
+    async readModbusHR(register: number, datatype: ModbusDatatype, length?: number): Promise<any> {
+        return this.connection.readModbusHR(register, datatype, length);
     }
 
-    async getPower(): Promise<number> {
-        return 10 * await this.readModbus(40200, ModbusDatatype.int16);
+    async readModbusIR(register: number, datatype: ModbusDatatype, length?: number): Promise<any> {
+        return this.connection.readModbusHR(register, datatype, length);
     }
 
     close(){

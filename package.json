@@ -26,16 +26,16 @@
   "dependencies": {
     "int64-buffer": "^0.99.1007",
     "loglevel": "^1.6.1",
-    "modbus-serial": "^7.4.2"
+    "modbus-serial": "^8.0.11"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "ts-node": "^7.0.1",
     "@types/loglevel": "^1.5.3",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.12",
+    "chai": "^4.2.0",
+    "mocha": "^10.2.0",
+    "ts-node": "^7.0.1",
     "typescript": "^3.2.2"
   },
   "files": [
